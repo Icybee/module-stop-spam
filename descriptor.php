@@ -20,7 +20,7 @@ return array
 	(
 		'primary' => array
 		(
-			Model::T_CONNECTION => 'local',
+// 			Model::T_CONNECTION => 'local',
 			Model::T_NAME => 'stopspam',
 			Model::T_SCHEMA => array
 			(
@@ -29,6 +29,20 @@ return array
 					'ip' => array('varchar', 40, 'primary' => true),
 					'confidence' => 'float',
 					'date' => 'date',
+					'count' => array('integer', 'unsigned' => true)
+				)
+			)
+		),
+
+		'forms' => array
+		(
+// 			Model::T_CONNECTION => 'local',
+			Model::T_NAME => 'stopspam__forms',
+			Model::T_SCHEMA => array
+			(
+				'fields' => array
+				(
+					'formid' => array('foreign', 'primary' => true),
 					'count' => array('integer', 'unsigned' => true)
 				)
 			)
