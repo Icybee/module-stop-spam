@@ -12,7 +12,7 @@
 namespace ICanBoogie\Modules\StopSpam;
 
 use ICanBoogie\ActiveRecord\Comment;
-use ICanBoogie\Exception\MissingRecord;
+use ICanBoogie\ActiveRecord\RecordNotFound;
 use ICanBoogie\HTTP\Request;
 use ICanBoogie\Operation;
 
@@ -168,7 +168,7 @@ class Hooks
 			$form_record->count++;
 			$form_record->save();
 		}
-		catch (MissingRecord $e)
+		catch (RecordNotFound $e)
 		{
 			$model->save(array('formid' => $formid, 'count' => 1));
 		}
