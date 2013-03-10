@@ -11,14 +11,16 @@
 
 namespace ICanBoogie\Modules\StopSpam;
 
-use ICanBoogie\ActiveRecord\Comment;
 use ICanBoogie\ActiveRecord\RecordNotFound;
 use ICanBoogie\HTTP\Request;
+use ICanBoogie\I18n;
 use ICanBoogie\Operation;
 
 use Brickrouge\Element;
 use Brickrouge\Form;
 use Brickrouge\Text;
+
+use Icybee\Modules\Comments\Comment;
 
 class Hooks
 {
@@ -33,7 +35,7 @@ class Hooks
 	}
 
 	/**
-	 * Checks if the request was initiated was a spam-bot.
+	 * Checks if the request was initiated by a spam-bot.
 	 *
 	 * @param string $ip
 	 * @param string $username
@@ -46,7 +48,7 @@ class Hooks
 		global $core;
 
 		$model = $core->models['stop-spam'];
-		$record = $model->find_by_ip($ip)->one;
+		$record = $model->filter_by_ip($ip)->one;
 		$threshold = $core->registry['stop_spam.threshold'] ?: 60;
 
 		if ($record)
@@ -105,7 +107,7 @@ class Hooks
 			'count' => 1
 		));
 
-		return $model->find_by_ip($ip)->one;
+		return $model->filter_by_ip($ip)->one;
 	}
 
 	public static function before_comments_save(Operation\BeforeProcessEvent $event, Operation $operation)
@@ -159,7 +161,7 @@ class Hooks
 		);
 
 		$model = $core->models['stop-spam/forms'];
-		$formid = $request[\ICanBoogie\Modules\Forms\Module::OPERATION_POST_ID];
+		$formid = $request[\Icybee\Modules\Forms\Module::OPERATION_POST_ID];
 
 		try
 		{
@@ -174,7 +176,7 @@ class Hooks
 		}
 	}
 
-	static public function on_comments_configblock_alter_children(\ICanBoogie\Event $event, \ICanBoogie\Modules\Comments\ConfigBlock $block)
+	static public function on_comments_configblock_alter_children(\ICanBoogie\Event $event, \Icybee\Modules\Comments\ConfigBlock $block)
 	{
 		$event->children['global[stop_spam.threshold]'] = new Text
 		(
@@ -195,9 +197,9 @@ class Hooks
 	 * Alters the "manage" block of the Forms module (forms) to add the "Spam caught" column.
 	 *
 	 * @param Event $event
-	 * @param \ICanBoogie\Modules\Forms\ManageBlock $block
+	 * @param \Icybee\Modules\Forms\ManageBlock $block
 	 */
-	static public function on_forms_manageblock_alter_columns(\ICanBoogie\Event $event, \ICanBoogie\Modules\Forms\ManageBlock $block)
+	static public function on_forms_manageblock_alter_columns(\ICanBoogie\Event $event, \Icybee\Modules\Forms\ManageBlock $block)
 	{
 		global $core;
 
@@ -211,8 +213,8 @@ class Hooks
  				'class' => 'measure',
  				'hook' => function($record, $property) use ($model)
  				{
-					$count = $model->select('`count`')->find_by_formid($record->nid)->rc;
- 					$label = t(':count spam caught', array(':count' => $count));
+					$count = $model->select('`count`')->filter_by_formid($record->nid)->rc;
+ 					$label = I18n\t(':count spam caught', array(':count' => $count));
 
  					if (!$count)
  					{

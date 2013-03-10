@@ -21,9 +21,9 @@ $request = Request::from
 		'is_xhr' => true, // we use XHR so that dispatch hooks won't be fired if the request fails
 		'params' => array
 		(
-			Operation::NAME => \ICanBoogie\Modules\Forms\Module::OPERATION_POST,
+			Operation::NAME => \Icybee\Modules\Forms\Module::OPERATION_POST,
 			Operation::DESTINATION => 'forms',
-			\ICanBoogie\Modules\Forms\Module::OPERATION_POST_ID => $record->nid,
+			\Icybee\Modules\Forms\Module::OPERATION_POST_ID => $record->nid,
 
 			'email' => 'centre15top@gmail.com',
 			'message' => <<<EOT

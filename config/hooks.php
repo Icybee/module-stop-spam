@@ -9,15 +9,17 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\Modules\StopSpam\Hooks;
+namespace ICanBoogie\Modules\StopSpam;
+
+$hooks = __NAMESPACE__ . '\Hooks::';
 
 return array
 (
 	'events' => array
 	(
-		'ICanBoogie\Modules\Comments\SaveOperation::process:before' => __NAMESPACE__ . '::before_comments_save',
-		'ICanBoogie\Modules\Comments\ConfigBlock::alter_children' => __NAMESPACE__ . '::on_comments_configblock_alter_children',
-		'ICanBoogie\Modules\Forms\PostOperation::process:before' => __NAMESPACE__ . '::before_forms_post',
-		'ICanBoogie\Modules\Forms\ManageBlock::alter_columns' => __NAMESPACE__ . '::on_forms_manageblock_alter_columns'
+		'Icybee\Modules\Comments\SaveOperation::process:before' => $hooks . 'before_comments_save',
+		'Icybee\Modules\Comments\ConfigBlock::alter_children' => $hooks . 'on_comments_configblock_alter_children',
+		'Icybee\Modules\Forms\PostOperation::process:before' => $hooks . 'before_forms_post',
+		'Icybee\Modules\Forms\ManageBlock::alter_columns' => $hooks . 'on_forms_manageblock_alter_columns'
 	)
 );

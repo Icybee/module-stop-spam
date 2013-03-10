@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+namespace ICanBoogie\Modules\StopSpam;
+
 use ICanBoogie\Module;
 use ICanBoogie\ActiveRecord\Model;
 
@@ -20,7 +22,6 @@ return array
 	(
 		'primary' => array
 		(
-// 			Model::T_CONNECTION => 'local',
 			Model::T_NAME => 'stopspam',
 			Model::T_SCHEMA => array
 			(
@@ -36,7 +37,6 @@ return array
 
 		'forms' => array
 		(
-// 			Model::T_CONNECTION => 'local',
 			Model::T_NAME => 'stopspam__forms',
 			Model::T_SCHEMA => array
 			(
@@ -49,6 +49,7 @@ return array
 		)
 	),
 
+	Module::T_NAMESPACE => __NAMESPACE__,
 	Module::T_PERMISSION => null,
 	Module::T_TITLE => 'Stop spam'
 );
