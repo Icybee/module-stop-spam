@@ -14,6 +14,7 @@ namespace ICanBoogie\Modules\StopSpam;
 use ICanBoogie\ActiveRecord\RecordNotFound;
 use ICanBoogie\HTTP\Request;
 use ICanBoogie\I18n;
+use ICanBoogie\I18n\FormattedString;
 use ICanBoogie\Operation;
 
 use Brickrouge\Element;
@@ -128,7 +129,7 @@ class Hooks
 			return;
 		}
 
-		$event->response->errors[] = t
+		$event->response->errors[] = new FormattedString
 		(
 			'The likelihood that you are a spambot is about :confidence%. (Your IP: %ip)', array
 			(
