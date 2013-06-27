@@ -200,41 +200,49 @@ class Hooks
 	 * @param Event $event
 	 * @param \Icybee\Modules\Forms\ManageBlock $block
 	 */
-	static public function on_forms_manageblock_alter_columns(\ICanBoogie\Event $event, \Icybee\Modules\Forms\ManageBlock $block)
+	static public function on_forms_manageblock_alter_columns(\Icybee\ManageBlock\AlterColumnsEvent $event, \Icybee\Modules\Forms\ManageBlock $target)
+	{
+		$event->add(new ManageBlock\SpamCaughtColumn($target, 'spam_caught'));
+	}
+}
+
+namespace ICanBoogie\Modules\StopSpam\ManageBlock;
+
+use ICanBoogie\I18n;
+
+use Icybee\ManageBlock\Column;
+
+class SpamCaughtColumn extends Column
+{
+	public function __construct($manager, $id)
+	{
+		parent::__construct
+		(
+			$manager, $id, array
+			(
+				'class' => 'pull-right',
+				'label' => "Spam caught",
+				'orderable' => false,
+				'default_order' => 1,
+				'discreet' => true
+			)
+		);
+	}
+
+	public function render_cell($record)
 	{
 		global $core;
 
 		$model = $core->models['stop-spam/forms'];
 
- 		$event->columns = \ICanBoogie\array_insert
- 		(
- 			$event->columns, 'modelid', array
- 			(
- 				'label' => "Spam caught",
- 				'class' => 'measure',
- 				'hook' => function($record, $property) use ($model)
- 				{
-					$count = $model->select('`count`')->filter_by_formid($record->nid)->rc;
- 					$label = I18n\t(':count spam caught', array(':count' => $count));
+		$count = $model->select('`count`')->filter_by_formid($record->nid)->rc;
+		$label = I18n\t(':count spam caught', array(':count' => $count));
 
- 					if (!$count)
- 					{
- 						return '<em class="small">' . $label . '</em>';
- 					}
+		if (!$count)
+		{
+			return '<em class="small">' . $label . '</em>';
+		}
 
- 					return $label;
- 				},
-
- 				'filters' => null,
- 				'filtering' => false,
- 				'reset' => null,
- 				'orderable' => false,
- 				'order' => null,
- 				'default_order' => 1,
- 				'discreet' => true
- 			),
-
- 			'spam_caught'
- 		);
+		return $label;
 	}
 }

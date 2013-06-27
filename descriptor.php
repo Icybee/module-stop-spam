@@ -22,8 +22,9 @@ return array
 	(
 		'primary' => array
 		(
-			Model::T_NAME => 'stopspam',
-			Model::T_SCHEMA => array
+			Model::NAME => 'stopspam',
+			Model::CLASSNAME => 'ICanBoogie\ActiveRecord\Model',
+			Model::SCHEMA => array
 			(
 				'fields' => array
 				(
@@ -38,6 +39,7 @@ return array
 		'forms' => array
 		(
 			Model::T_NAME => 'stopspam__forms',
+			Model::CLASSNAME => 'ICanBoogie\ActiveRecord\Model',
 			Model::T_SCHEMA => array
 			(
 				'fields' => array
