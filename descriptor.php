@@ -24,6 +24,7 @@ return array
 		(
 			Model::NAME => 'stopspam',
 			Model::CLASSNAME => 'ICanBoogie\ActiveRecord\Model',
+			Model::ACTIVERECORD_CLASS => 'ICanBoogie\ActiveRecord',
 			Model::SCHEMA => array
 			(
 				'fields' => array
@@ -40,6 +41,7 @@ return array
 		(
 			Model::T_NAME => 'stopspam__forms',
 			Model::CLASSNAME => 'ICanBoogie\ActiveRecord\Model',
+			Model::ACTIVERECORD_CLASS => 'ICanBoogie\ActiveRecord',
 			Model::T_SCHEMA => array
 			(
 				'fields' => array

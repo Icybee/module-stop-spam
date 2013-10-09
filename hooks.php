@@ -221,7 +221,7 @@ class SpamCaughtColumn extends Column
 			$manager, $id, array
 			(
 				'class' => 'pull-right',
-				'label' => "Spam caught",
+				'title' => "Spam caught",
 				'orderable' => false,
 				'default_order' => 1,
 				'discreet' => true
