@@ -16,6 +16,7 @@ use ICanBoogie\ActiveRecord\Model;
 
 return array
 (
+	Module::T_ID => 'stop-spam',
 	Module::T_CATEGORY => 'feedback',
 	Module::T_DESCRIPTION => "Helps to fight against spam",
 	Module::T_MODELS => array

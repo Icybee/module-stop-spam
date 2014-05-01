@@ -27,10 +27,11 @@ class Hooks
 {
 	static private function retrieve_spaminfo(array $params)
 	{
-		$url = 'http://www.stopforumspam.com/api?' . http_build_query
-		(
-			array('f' => 'json') + $params, '', '&'
-		);
+		$url = 'http://www.stopforumspam.com/api?' . http_build_query([
+
+			'f' => 'json'
+
+		] + $params, '', '&');
 
 		return json_decode(file_get_contents($url), true);
 	}
@@ -61,15 +62,13 @@ class Hooks
 			return $record;
 		}
 
-		$spaminfo = self::retrieve_spaminfo
-		(
-			array
-			(
-				'ip' => $ip,
-				'username' => $username,
-				'email' => $email
-			)
-		);
+		$spaminfo = self::retrieve_spaminfo([
+
+			'ip' => $ip,
+			'username' => $username,
+			'email' => $email
+
+		]);
 
 		$frequency = 0;
 		$confidence = 0;
@@ -101,12 +100,14 @@ class Hooks
 			return;
 		}
 
-		$model->insert(array(
+		$model->insert([
+
 			'ip' => $ip,
 			'confidence' => $confidence,
 			'date' => date('Y-m-d'),
 			'count' => 1
-		));
+
+		]);
 
 		return $model->filter_by_ip($ip)->one;
 	}
@@ -152,14 +153,13 @@ class Hooks
 			return;
 		}
 
-		$event->response->errors[] = t
-		(
-			'The likelihood that you are a spambot is about :confidence%. (Your IP: %ip)', array
-			(
-				'confidence' => round($record->confidence),
-				'ip' => $ip
-			)
-		);
+		$errors = $event->response->errors;
+		$errors[] = $errors->format('The likelihood that you are a spambot is about :confidence%. (Your IP: %ip)', [
+
+			'confidence' => round($record->confidence),
+			'ip' => $ip
+
+		]);
 
 		$model = $core->models['stop-spam/forms'];
 		$formid = $request[\Icybee\Modules\Forms\Module::OPERATION_POST_ID];
